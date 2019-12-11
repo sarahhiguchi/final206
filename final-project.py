@@ -27,11 +27,16 @@ def get_data_songkick(metro_areaID):
         print("Error when reading from url")
         data = {}
 
-    return data 
+    artists = []
+    for event in data["resultsPage"]["results"]["event"]:
+        for performance in event["performance"]:
+            artists.append(performance["displayName"])
+
+    return artists 
 
 london_id = (get_locid_songkick("London"))
 london_events = get_data_songkick(london_id)
-print(london_id, london_events)
+print(london_events)
 
 
 
