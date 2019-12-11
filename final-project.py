@@ -1,5 +1,4 @@
 import requests
-import spotipy
 import sqlite3
 import json
 
@@ -29,14 +28,24 @@ def get_data_songkick(metro_areaID):
 
     artists = []
     for event in data["resultsPage"]["results"]["event"]:
-        for performance in event["performance"]:
-            artists.append(performance["displayName"])
+        artists.append(event["performance"][0]["displayName"])
 
-    return artists 
+    return data, artists 
+
+def search_artist_spotify(artist):
+    try: 
+        api_key: "c2120610f7f4473781820928004f3760"
+        url = "https://api.spotify.com/v1/search?q=name:" + artist + "&type=artist"
+        artist_r = requests.get(url)
+        artists = json.loads(artist_r.text)
+    except:
+        print("Error when reading from url")
+        artists = {}
+    return artists
 
 london_id = (get_locid_songkick("London"))
 london_events = get_data_songkick(london_id)
-print(london_events)
+print(search_artist_spotify('kesha'))
 
 
 
