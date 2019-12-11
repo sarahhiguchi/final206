@@ -17,8 +17,21 @@ def get_locid_songkick(loc):
         info = {}
     return info
 
-def get_data_songkick
+def get_data_songkick(metro_areaID):
+    try:
+        api_key = "kmRJqsmZhyq4LTS5"
+        url = "https://api.songkick.com/api/3.0/metro_areas/" + str(metro_areaID) + "/calendar.json?apikey=" + api_key + "&page=1&per_page=20"
+        data_r = requests.get(url)
+        data = json.loads(data_r.text)
+    except: 
+        print("Error when reading from url")
+        data = {}
 
-print(get_locid_songkick("London"))
+    return data 
+
+london_id = (get_locid_songkick("London"))
+london_events = get_data_songkick(london_id)
+print(london_id, london_events)
+
 
 
