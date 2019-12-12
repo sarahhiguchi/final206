@@ -35,15 +35,17 @@ def get_data_songkick(metro_areaID):
 
     return data, artists 
 
-def search_spotify(artist):
-    sp = spotipy.Spotify()
-    result = sp.search(artist)
-    pprint.pprint(result)
+def musixmatch_artist_search(artist):
+    api_key = "ca6e551b9b248119f6d8bd4c56d39613"
+    url = " https://api.musixmatch.com/ws/1.1/artist.search?q_artist=" + artist + "&page_size=1&apikey=" + api_key
+    artist_search = requests.get(url)
+    artist_info = json.loads(artist_search.text)
+    print(artist_info)
 
 london_id = (get_locid_songkick("London"))
 london_events = get_data_songkick(london_id[1])
 print(london_events[1])
-search_spotify('kesha')
+musixmatch_artist_search('kesha')
 
 def setUpSKlcdTable(data):
     conn = sqlite3.connect('songkicklcd.sqlite')
