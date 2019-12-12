@@ -22,7 +22,6 @@ def get_data_songkick(metro_areaID):
         url = "https://api.songkick.com/api/3.0/metro_areas/" + str(metro_areaID) + "/calendar.json?apikey=" + api_key + "&page=1&per_page=20"
         data_r = requests.get(url)
         data = json.loads(data_r.text)
-        print(data_r.text)
     except: 
         print("Error when reading from url")
         data = {}
@@ -43,7 +42,7 @@ def musixmatch_artist_search(artist):
         print("Error when reading from url")
         artist_info = {}
 
-    return str(artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_id"])
+    return artist_info, str(artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_id"])
 
 
 def album_get(artist_id):
@@ -87,6 +86,20 @@ def setUpSKlcdDATA(data):
 
     conn.commit()
 
+# def setUpSKlcdDATA(data):
+#     conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
+#     cur = conn.cursor()
+#     cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_artists(event_name TEXT, head_artist TEXT, event_id INTEGER)')
+
+#     for event in data['resultsPage']['results']['event']:
+#         _event_name = event['displayName']
+#         _head_artist = event['performance'][0]['displayName']
+#         _event_id = event['id']
+#         cur.execute('INSERT INTO SongkickDATA (event_name, head_artist, event_id) VALUES (?, ?, ?)',
+#                  (_event_name, _head_artist, _event_id))
+
+#     conn.commit()
+
 
 def main():
     locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
@@ -95,6 +108,10 @@ def main():
         setUpSKlcdTable(locID[0])
         info = get_data_songkick(locID[1])
         setUpSKlcdDATA(info[0])
+        for artist in info[1]:
+            artist_info = musixmatch_artist_search(artist)
+            artist_genre = album_get(artist_info[1])
+            print(artist_info, artist_genre)
     
 
 
