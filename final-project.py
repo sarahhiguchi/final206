@@ -50,12 +50,13 @@ def album_get(artist_id):
         api_key = "ca6e551b9b248119f6d8bd4c56d39613"
         url = " https://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id +"&g_album_name=1&page=1&page_size=1&apikey=" + api_key
         album_search = requests.get(url)
+        print(album_search.text)
         album_info = json.loads(album_search.text)
     except:
         print("Error when reading from url")
         album_info = {}
 
-    return album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"]
+    return album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"][0]['music_genre']['music_genre_name']
 
 def setUpSKlcdTable(data):
     conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
@@ -113,7 +114,7 @@ def main():
         for artist in info[1]:
             artist_info = musixmatch_artist_search(artist)
             artist_genre = album_get(artist_info[1])
-            print(artist_info, artist_genre)
+            # print(artist_info, artist_genre)
     
 
 
