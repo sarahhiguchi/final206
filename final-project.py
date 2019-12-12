@@ -1,6 +1,10 @@
 import requests
 import sqlite3
 import json
+import spotipy
+import sys
+import pprint
+
 
 
 def get_locid_songkick(loc):
@@ -10,8 +14,6 @@ def get_locid_songkick(loc):
         loc_url = "https://api.songkick.com/api/3.0/search/locations.json?query=" + loc_query
         loc_r = requests.get(loc_url)
         info = json.loads(loc_r.text)
-        # print(loc_r.text)
-        # print(info)
         return info, info["resultsPage"]["results"]["location"][0]["metroArea"]["id"]
     except: 
         print("Error when reading from url")
@@ -33,6 +35,7 @@ def get_data_songkick(metro_areaID):
     # print(data_r.text)
     return data, artists 
 
+<<<<<<< HEAD
 # def search_artist_spotify(artist):
 #     try: 
 #         api_key: "c2120610f7f4473781820928004f3760"
@@ -47,6 +50,19 @@ def get_data_songkick(metro_areaID):
 london_id = (get_locid_songkick("London"))
 london_events = get_data_songkick(london_id[1])
 # print(search_artist_spotify('kesha'))
+=======
+def musixmatch_artist_search(artist):
+    api_key = "ca6e551b9b248119f6d8bd4c56d39613"
+    url = " https://api.musixmatch.com/ws/1.1/artist.search?q_artist=" + artist + "&page_size=1&apikey=" + api_key
+    artist_search = requests.get(url)
+    artist_info = json.loads(artist_search.text)
+    print(artist_info)
+
+london_id = (get_locid_songkick("London"))
+london_events = get_data_songkick(london_id[1])
+print(london_events[1])
+musixmatch_artist_search('kesha')
+>>>>>>> 4b588ebbd8d3703fc646214ce07c4257c9dedf33
 
 def setUpSKlcdTable(data):
     conn = sqlite3.connect('/Users/Yasmeen/Desktop/final206/songkicklcd.sqlite')
