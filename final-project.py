@@ -75,14 +75,16 @@ def setUpSKlcdTable(data):
 def setUpSKlcdDATA(data):
     conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
     cur = conn.cursor()
-    cur.execute('CREATE TABLE IF NOT EXISTS SongkickDATA(event_name TEXT, head_artist TEXT, event_id INTEGER)')
+    cur.execute('CREATE TABLE IF NOT EXISTS SongkickDATA(event_name TEXT, head_artist TEXT, event_id INTEGER, city TEXT, metroarea_id INTEGER)')
 
     for event in data['resultsPage']['results']['event']:
         _event_name = event['displayName']
         _head_artist = event['performance'][0]['displayName']
         _event_id = event['id']
-        cur.execute('INSERT INTO SongkickDATA (event_name, head_artist, event_id) VALUES (?, ?, ?)',
-                 (_event_name, _head_artist, _event_id))
+        _city = event['location']['city']
+        _metroarea_id = event['venue']['metroArea']['id']
+        cur.execute('INSERT INTO SongkickDATA (event_name, head_artist, event_id, city, metroarea_id) VALUES (?, ?, ?, ?, ?)',
+                 (_event_name, _head_artist, _event_id, _city, _metroarea_id))
 
     conn.commit()
 
