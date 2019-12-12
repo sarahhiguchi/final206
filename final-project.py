@@ -14,7 +14,7 @@ def get_locid_songkick(loc):
         return info, info["resultsPage"]["results"]["location"][0]["metroArea"]["id"]
     except: 
         print("Error when reading from url")
-        info = {}
+        pass
 
 def get_data_songkick(metro_areaID):
     try:
@@ -22,15 +22,15 @@ def get_data_songkick(metro_areaID):
         url = "https://api.songkick.com/api/3.0/metro_areas/" + str(metro_areaID) + "/calendar.json?apikey=" + api_key + "&page=1&per_page=20"
         data_r = requests.get(url)
         data = json.loads(data_r.text)
+        artists = []
+        for event in data["resultsPage"]["results"]["event"]:
+            artists.append(event["performance"][0]["displayName"])
+        return data, artists 
     except: 
         print("Error when reading from url")
-        data = {}
+        pass
 
-    artists = []
-    for event in data["resultsPage"]["results"]["event"]:
-        artists.append(event["performance"][0]["displayName"])
-
-    return data, artists 
+    
 
 def musixmatch_artist_search(artist):
     try:
@@ -38,24 +38,27 @@ def musixmatch_artist_search(artist):
         url = " https://api.musixmatch.com/ws/1.1/artist.search?q_artist=" + artist + "&page_size=1&apikey=" + api_key
         artist_search = requests.get(url)
         artist_info = json.loads(artist_search.text)
+        artist_id = str(artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_id"])
+        return artist_info, artist_id
     except:
         print("Error when reading from url")
-        artist_info = {}
+        pass
 
-    return artist_info, str(artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_id"])
-
-
+    
 def album_get(artist_id):
     try:
         api_key = "ca6e551b9b248119f6d8bd4c56d39613"
         url = " https://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id +"&g_album_name=1&page=1&page_size=1&apikey=" + api_key
         album_search = requests.get(url)
         album_info = json.loads(album_search.text)
+        if len(album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"]) == 0:
+            return album_info, "No genre"
+        else:
+            return album_info, str(album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"][0]["music_genre"]["music_genre_name"])
     except:
         print("Error when reading from url")
-        album_info = {}
+        pass
 
-    return album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"]
 
 def setUpSKlcdTable(data):
     conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
