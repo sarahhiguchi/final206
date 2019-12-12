@@ -64,6 +64,22 @@ def setUpSKlcdTable(data):
                  (_city_name, _city_country, _id))
 
     conn.commit()
+    
+ def setUpSKlcdDATA(data):
+    conn = sqlite3.connect('songkickdata.sqlite')
+    cur = conn.cursor()
+    cur.execute('DROP TABLE IF EXISTS SongkickDATA')
+    cur.execute('CREATE TABLE SongkickDATA(event_name TEXT, head_artist TEXT, id INTEGER)')
+
+    for event in data['resultsPage']['results']['event']:
+        _event_name = event['displayName']
+        _head_artist = event['performance'][0]['displayName']
+        _id = event['id']
+        cur.execute('INSERT INTO SongkickDATA (event_name, head_artist, id) VALUES (?, ?, ?)',
+                 (_event_name, _head_artist, _id))
+
+
+    conn.commit()
 
 
 
@@ -75,5 +91,6 @@ def main():
     keshaID = musixmatch_artist_search('asap rocky')
     print(musixmatch_artist_get(keshaID))
     setUpSKlcdTable(london_id[0])
+    setUpSKlcdDATA(london_events[0])
 
 main()
