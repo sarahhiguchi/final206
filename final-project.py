@@ -59,34 +59,31 @@ def album_get(artist_id):
     return album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"]
 
 def setUpSKlcdTable(data):
-    conn = sqlite3.connect('songkicklcd.sqlite')
+    conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
     cur = conn.cursor()
-    # cur.execute('DROP TABLE IF EXISTS SongkickLCD')
-    cur.execute('CREATE TABLE IF NOT EXISTS SongkickLCD(city_name TEXT, city_country TEXT, id INTEGER)')
+    cur.execute('CREATE TABLE IF NOT EXISTS SongkickLCD(city_name TEXT, city_country TEXT, metroarea_id INTEGER)')
 
     for result in data['resultsPage']['results']['location']:
         _city_name = result['city']['displayName']
         _city_country = result['city']['country']['displayName']
-        _id = result['metroArea']['id']
-        cur.execute('INSERT INTO SongkickLCD (city_name, city_country, id) VALUES (?, ?, ?)',
-                 (_city_name, _city_country, _id))
+        _metroarea_id = result['metroArea']['id']
+        cur.execute('INSERT INTO SongkickLCD (city_name, city_country, metroarea_id) VALUES (?, ?, ?)',
+                 (_city_name, _city_country, _metroarea_id))
 
     conn.commit()
 
 
 def setUpSKlcdDATA(data):
-    conn = sqlite3.connect('songkickdata.sqlite')
+    conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
     cur = conn.cursor()
-    # cur.execute('DROP TABLE IF EXISTS SongkickDATA')
-    cur.execute('CREATE TABLE IF NOT EXISTS SongkickDATA(event_name TEXT, head_artist TEXT, id INTEGER)')
+    cur.execute('CREATE TABLE IF NOT EXISTS SongkickDATA(event_name TEXT, head_artist TEXT, event_id INTEGER)')
 
     for event in data['resultsPage']['results']['event']:
         _event_name = event['displayName']
         _head_artist = event['performance'][0]['displayName']
-        _id = event['id']
-        # _loc - 
-        cur.execute('INSERT INTO SongkickDATA (event_name, head_artist, id) VALUES (?, ?, ?)',
-                 (_event_name, _head_artist, _id))
+        _event_id = event['id']
+        cur.execute('INSERT INTO SongkickDATA (event_name, head_artist, event_id) VALUES (?, ?, ?)',
+                 (_event_name, _head_artist, _event_id))
 
     conn.commit()
 
