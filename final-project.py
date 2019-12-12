@@ -32,37 +32,23 @@ def get_data_songkick(metro_areaID):
     artists = []
     for event in data["resultsPage"]["results"]["event"]:
         artists.append(event["performance"][0]["displayName"])
-    # print(data_r.text)
+
     return data, artists 
 
-<<<<<<< HEAD
-# def search_artist_spotify(artist):
-#     try: 
-#         api_key: "c2120610f7f4473781820928004f3760"
-#         url = "https://api.spotify.com/v1/search?q=name:" + artist + "&type=artist"
-#         artist_r = requests.get(url)
-#         artists = json.loads(artist_r.text)
-#     except:
-#         print("Error when reading from url")
-#         artists = {}
-#     return artists
-
-london_id = (get_locid_songkick("London"))
-london_events = get_data_songkick(london_id[1])
-# print(search_artist_spotify('kesha'))
-=======
 def musixmatch_artist_search(artist):
     api_key = "ca6e551b9b248119f6d8bd4c56d39613"
     url = " https://api.musixmatch.com/ws/1.1/artist.search?q_artist=" + artist + "&page_size=1&apikey=" + api_key
     artist_search = requests.get(url)
     artist_info = json.loads(artist_search.text)
-    print(artist_info)
+    return str(artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_id"])
 
-london_id = (get_locid_songkick("London"))
-london_events = get_data_songkick(london_id[1])
-print(london_events[1])
-musixmatch_artist_search('kesha')
->>>>>>> 4b588ebbd8d3703fc646214ce07c4257c9dedf33
+
+def musixmatch_artist_get(artist_id):
+    api_key = "ca6e551b9b248119f6d8bd4c56d39613"
+    url = " https://api.musixmatch.com/ws/1.1/artist.get?artist_id=" + artist_id + "&page_size=1&apikey=" + api_key
+    artistID_search = requests.get(url)
+    artist_info = json.loads(artistID_search.text)
+    return artist_info
 
 def setUpSKlcdTable(data):
     conn = sqlite3.connect('/Users/Yasmeen/Desktop/final206/songkicklcd.sqlite')
@@ -79,26 +65,15 @@ def setUpSKlcdTable(data):
 
     conn.commit()
 
-def setUpSKlcdDATA(data):
-    conn = sqlite3.connect('/Users/Yasmeen/Desktop/final206/songkickdata.sqlite')
-    cur = conn.cursor()
-    cur.execute('DROP TABLE IF EXISTS SongkickDATA')
-    cur.execute('CREATE TABLE SongkickDATA(event_name TEXT, head_artist TEXT, id INTEGER)')
-
-    for event in data['resultsPage']['results']['event']:
-        _event_name = event['displayName']
-        _head_artist = event['performance'][0]['displayName']
-        _id = event['id']
-        cur.execute('INSERT INTO SongkickDATA (event_name, head_artist, id) VALUES (?, ?, ?)',
-                 (_event_name, _head_artist, _id))
-
-
-    conn.commit()
-
-
-setUpSKlcdTable(london_id[0])
-setUpSKlcdDATA(london_events[0])
 
 
 
+def main():
+    london_id = (get_locid_songkick("London"))
+    london_events = get_data_songkick(london_id[1])
+    print(london_events[1])
+    keshaID = musixmatch_artist_search('asap rocky')
+    print(musixmatch_artist_get(keshaID))
+    setUpSKlcdTable(london_id[0])
 
+main()
