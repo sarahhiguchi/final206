@@ -61,8 +61,8 @@ def album_get(artist_id):
 def setUpSKlcdTable(data):
     conn = sqlite3.connect('songkicklcd.sqlite')
     cur = conn.cursor()
-    cur.execute('DROP TABLE IF EXISTS SongkickLCD')
-    cur.execute('CREATE TABLE SongkickLCD(city_name TEXT, city_country TEXT, id INTEGER)')
+    # cur.execute('DROP TABLE IF EXISTS SongkickLCD')
+    cur.execute('CREATE TABLE IF NOT EXISTS SongkickLCD(city_name TEXT, city_country TEXT, id INTEGER)')
 
     for result in data['resultsPage']['results']['location']:
         _city_name = result['city']['displayName']
@@ -73,20 +73,23 @@ def setUpSKlcdTable(data):
 
     conn.commit()
 
+
 def setUpSKlcdDATA(data):
     conn = sqlite3.connect('songkickdata.sqlite')
     cur = conn.cursor()
-    cur.execute('DROP TABLE IF EXISTS SongkickDATA')
-    cur.execute('CREATE TABLE SongkickDATA(event_name TEXT, head_artist TEXT, id INTEGER)')
+    # cur.execute('DROP TABLE IF EXISTS SongkickDATA')
+    cur.execute('CREATE TABLE IF NOT EXISTS SongkickDATA(event_name TEXT, head_artist TEXT, id INTEGER)')
 
     for event in data['resultsPage']['results']['event']:
         _event_name = event['displayName']
         _head_artist = event['performance'][0]['displayName']
         _id = event['id']
+        # _loc - 
         cur.execute('INSERT INTO SongkickDATA (event_name, head_artist, id) VALUES (?, ?, ?)',
                  (_event_name, _head_artist, _id))
 
     conn.commit()
+
 
 def main():
     locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
