@@ -1,6 +1,10 @@
 import requests
 import sqlite3
 import json
+import spotipy
+import sys
+import pprint
+
 
 
 def get_locid_songkick(loc):
@@ -10,8 +14,6 @@ def get_locid_songkick(loc):
         loc_url = "https://api.songkick.com/api/3.0/search/locations.json?query=" + loc_query
         loc_r = requests.get(loc_url)
         info = json.loads(loc_r.text)
-        # print(loc_r.text)
-        # print(info)
         return info, info["resultsPage"]["results"]["location"][0]["metroArea"]["id"]
     except: 
         print("Error when reading from url")
@@ -33,20 +35,15 @@ def get_data_songkick(metro_areaID):
 
     return data, artists 
 
-def search_artist_spotify(artist):
-    try: 
-        api_key: "c2120610f7f4473781820928004f3760"
-        url = "https://api.spotify.com/v1/search?q=name:" + artist + "&type=artist"
-        artist_r = requests.get(url)
-        artists = json.loads(artist_r.text)
-    except:
-        print("Error when reading from url")
-        artists = {}
-    return artists
+def search_spotify(artist):
+    sp = spotipy.Spotify()
+    result = sp.search(artist)
+    pprint.pprint(result)
 
 london_id = (get_locid_songkick("London"))
-london_events = get_data_songkick(london_id)
-print(search_artist_spotify('kesha'))
+london_events = get_data_songkick(london_id[1])
+print(london_events[1])
+search_spotify('kesha')
 
 def setUpSKlcdTable(data):
     conn = sqlite3.connect('songkicklcd.sqlite')
