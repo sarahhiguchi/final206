@@ -13,7 +13,7 @@ def get_locid_songkick(loc):
         info = json.loads(loc_r.text)
         return info, info["resultsPage"]["results"]["location"][0]["metroArea"]["id"]
     except: 
-        print("Error when reading from url")
+        print("Error when reading from url location")
         pass
 
 def get_data_songkick(metro_areaID):
@@ -27,7 +27,7 @@ def get_data_songkick(metro_areaID):
             artists.append(event["performance"][0]["displayName"])
         return data, artists 
     except: 
-        print("Error when reading from url")
+        print("Error when reading from url metro id")
         pass
 
     
@@ -44,7 +44,7 @@ def musixmatch_artist_search(artist):
             artist_id = str(artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_id"])
             return artist_info, artist_id
     except:
-        print("Error when reading from url")
+        print("Error when reading from url artist id")
         pass
 
     
@@ -57,9 +57,9 @@ def album_get(artist_id):
         if len(album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"]) == 0:
             return album_info, "No genre"
         else:
-            return album_info, str(album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"][0]["music_genre"]["music_genre_name"])
+            return album_info, album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"][0]["music_genre"]["music_genre_name"]
     except:
-        print("Error when reading from url")
+        print("Error when reading from url genre")
         pass
 
 
@@ -121,5 +121,8 @@ def main():
             if artist_info == None:
                 continue
             artist_genre = album_get(artist_info[1])    
-
+            if artist_genre == None:
+                continue
+            print(artist_genre[1])
+            print(artist_info[1])
 main()
