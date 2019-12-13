@@ -38,8 +38,11 @@ def musixmatch_artist_search(artist):
         url = " https://api.musixmatch.com/ws/1.1/artist.search?q_artist=" + artist + "&page_size=1&apikey=" + api_key
         artist_search = requests.get(url)
         artist_info = json.loads(artist_search.text)
-        artist_id = str(artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_id"])
-        return artist_info, artist_id
+        if len(artist_info["message"]["body"]["artist_list"]) == 0:
+            pass
+        else:
+            artist_id = str(artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_id"])
+            return artist_info, artist_id
     except:
         print("Error when reading from url")
         pass
@@ -115,9 +118,8 @@ def main():
         setUpSKlcdDATA(info[0])
         for artist in info[1]:
             artist_info = musixmatch_artist_search(artist)
-            artist_genre = album_get(artist_info[1])
-            print(artist_info, artist_genre)
-    
-
+            if artist_info == None:
+                continue
+            artist_genre = album_get(artist_info[1])    
 
 main()
