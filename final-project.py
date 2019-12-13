@@ -37,6 +37,7 @@ def musixmatch_artist_search(artist):
         api_key = "ca6e551b9b248119f6d8bd4c56d39613"
         url = " https://api.musixmatch.com/ws/1.1/artist.search?q_artist=" + artist + "&page_size=1&apikey=" + api_key
         artist_search = requests.get(url)
+        # print(artist_search.text)
         artist_info = json.loads(artist_search.text)
         if len(artist_info["message"]["body"]["artist_list"]) == 0:
             pass
@@ -94,19 +95,18 @@ def setUpSKlcdDATA(data):
 
     conn.commit()
 
-# def setUpSKlcdDATA(data):
-#     conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
-#     cur = conn.cursor()
-#     cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_artists(event_name TEXT, head_artist TEXT, event_id INTEGER)')
+def setupMMsearchTable(data):
+    conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
+    cur = conn.cursor()
+    cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_artists(artist_name TEXT, artist_id INTEGER)')
 
-#     for event in data['resultsPage']['results']['event']:
-#         _event_name = event['displayName']
-#         _head_artist = event['performance'][0]['displayName']
-#         _event_id = event['id']
-#         cur.execute('INSERT INTO SongkickDATA (event_name, head_artist, event_id) VALUES (?, ?, ?)',
-#                  (_event_name, _head_artist, _event_id))
+    for artist in data['message']['body']['artist_list'][0]['artist']:
+        _artist_name = artist['artist_name']
+        _artist_id = artist['artist_id']
+        cur.execute('INSERT INTO musixmatch_artists (artist_name, artist_id) VALUES (?, ?)',
+                 (_artist_name, _artist_id))
 
-#     conn.commit()
+    conn.commit()
 
 
 def main():
@@ -123,6 +123,7 @@ def main():
             artist_genre = album_get(artist_info[1])    
             if artist_genre == None:
                 continue
-            print(artist_genre[1])
-            print(artist_info[1])
+            # print(artist_genre[1])
+            # print(artist_info[1])
+        setupMMsearchTable(artist_info[0])
 main()
