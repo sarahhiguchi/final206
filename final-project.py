@@ -38,8 +38,11 @@ def musixmatch_artist_search(artist):
         url = " https://api.musixmatch.com/ws/1.1/artist.search?q_artist=" + artist + "&page_size=1&apikey=" + api_key
         artist_search = requests.get(url)
         artist_info = json.loads(artist_search.text)
-        artist_id = str(artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_id"])
-        return artist_info, artist_id
+        if len(artist_info["message"]["body"]["artist_list"]) == 0:
+            pass
+        else:
+            artist_id = str(artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_id"])
+            return artist_info, artist_id
     except:
         print("Error when reading from url")
         pass
@@ -50,20 +53,15 @@ def album_get(artist_id):
         api_key = "ca6e551b9b248119f6d8bd4c56d39613"
         url = " https://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id +"&g_album_name=1&page=1&page_size=1&apikey=" + api_key
         album_search = requests.get(url)
-        print(album_search.text)
         album_info = json.loads(album_search.text)
         if len(album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"]) == 0:
             return album_info, "No genre"
         else:
-            return album_info, str(album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"][0]["music_genre"]["music_genre_name"])
+            return album_info, album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"][0]["music_genre"]["music_genre_name"]
     except:
         print("Error when reading from url")
         pass
 
-<<<<<<< HEAD
-    return album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"][0]['music_genre']['music_genre_name']
-=======
->>>>>>> ca81acf227af694403fffb5e748296b34aabc251
 
 def setUpSKlcdTable(data):
     conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
@@ -120,9 +118,11 @@ def main():
         setUpSKlcdDATA(info[0])
         for artist in info[1]:
             artist_info = musixmatch_artist_search(artist)
-            artist_genre = album_get(artist_info[1])
-            # print(artist_info, artist_genre)
-    
-
-
+            if artist_info == None:
+                continue
+            artist_genre = album_get(artist_info[1])    
+            if artist_genre == None:
+                continue
+            print(artist_genre[1])
+            print(artist_info[1])
 main()
