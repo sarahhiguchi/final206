@@ -99,17 +99,13 @@ def setUpSKlcdDATA(data):
 def setupMMsearchTable(data):
     conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
     cur = conn.cursor()
-<<<<<<< HEAD
-    cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_artists(artist_name TEXT UNIQUE, artist_id INTEGER)')
-=======
-    cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_artists(artist_name TEXT, artist_id INTEGER, artist_rating INTEGER)')
->>>>>>> 32e64f1d800c6f36554ce056a5c2ed4f49f9da37
+    cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_artists(artist_name TEXT UNIQUE, artist_id INTEGER, artist_rating INTEGER)')
 
     for artist in data['message']['body']['artist_list']:
         _artist_name = artist['artist']['artist_name']
         _artist_id = artist['artist']['artist_id']
         _artist_rating = artist['artist']['artist_rating']
-        cur.execute('INSERT INTO musixmatch_artists (artist_name, artist_id, artist_rating) VALUES (?, ?, ?)',
+        cur.execute('INSERT OR IGNORE INTO musixmatch_artists (artist_name, artist_id, artist_rating) VALUES (?, ?, ?)',
                  (_artist_name, _artist_id, _artist_rating))
 
     conn.commit()
@@ -117,11 +113,11 @@ def setupMMsearchTable(data):
 def setupGenreTable(data):
     conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
     cur = conn.cursor()
-    cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_genre(artist_name TEXT, genre_name TEXT)')
+    cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_genre(artist_name TEXT UNIQUE, genre_name TEXT)')
 
     _artist_name = data[0]['message']['body']['album_list'][0]['album']['artist_name']
     _genre_name = data[1]
-    cur.execute('INSERT INTO musixmatch_genre (artist_name, genre_name) VALUES (?, ?)',
+    cur.execute('INSERT OR IGNORE INTO musixmatch_genre (artist_name, genre_name) VALUES (?, ?)',
             (_artist_name, _genre_name))
 
     conn.commit()
