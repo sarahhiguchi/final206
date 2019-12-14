@@ -100,9 +100,9 @@ def setupMMsearchTable(data):
     cur = conn.cursor()
     cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_artists(artist_name TEXT, artist_id INTEGER)')
 
-    for artist in data['message']['body']['artist_list'][0]['artist']:
-        _artist_name = artist['artist_name']
-        _artist_id = artist['artist_id']
+    for artist in data['message']['body']['artist_list']:
+        _artist_name = artist['artist']['artist_name']
+        _artist_id = artist['artist']['artist_id']
         cur.execute('INSERT INTO musixmatch_artists (artist_name, artist_id) VALUES (?, ?)',
                  (_artist_name, _artist_id))
 
@@ -125,5 +125,5 @@ def main():
                 continue
             # print(artist_genre[1])
             # print(artist_info[1])
-        setupMMsearchTable(artist_info[0])
+            setupMMsearchTable(artist_info[0])
 main()
