@@ -98,7 +98,7 @@ def setUpSKlcdDATA(data):
 def setupMMsearchTable(data):
     conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
     cur = conn.cursor()
-    cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_artists(artist_name TEXT, artist_id INTEGER)')
+    cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_artists(artist_name TEXT UNIQUE, artist_id INTEGER)')
 
     for artist in data['message']['body']['artist_list']:
         _artist_name = artist['artist']['artist_name']
@@ -120,6 +120,26 @@ def setupGenreTable(data):
 
     conn.commit()
 
+# def get_category_dict(db_filename):
+#     path = os.path.dirname(os.path.abspath(__file__))
+#     conn = sqlite3.connect(path+'/'+db_filename)
+#     cur = conn.cursor()
+
+#     rest_dict = {}
+
+#     cur.execute("SELECT Restaurants.category_id, Categories.title FROM Restaurants JOIN Categories ON Restaurants.category_id = Categories.id")
+
+#     fetched = cur.fetchall()
+
+#     for count in fetched:
+#         # if count[1]   not in rest_dict:
+#         #     rest_dict[count[1]] =1
+#         # else:
+#         #     rest_dict[count[1]] += 1
+#         rest_dict[count[1]] = rest_dict.get(count[1], 0) + 1
+   
+#     return rest_dict
+
 
 def main():
     locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
@@ -127,7 +147,7 @@ def main():
         locID = get_locid_songkick(location)
         setUpSKlcdTable(locID[0])
         info = get_data_songkick(locID[1])
-        print(info[1])
+        # print(info[1])
         setUpSKlcdDATA(info[0])
         for artist in info[1]:
             artist_info = musixmatch_artist_search(artist)
