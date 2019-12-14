@@ -1,6 +1,7 @@
 import requests
 import sqlite3
 import json
+import os
 
 
 
@@ -122,43 +123,41 @@ def setupGenreTable(data):
 
     conn.commit()
 
-# def get_category_dict(db_filename):
-#     path = os.path.dirname(os.path.abspath(__file__))
-#     conn = sqlite3.connect(path+'/'+db_filename)
-#     cur = conn.cursor()
+def get_category_dict(db_filename):
+    path = os.path.dirname(os.path.abspath(__file__))
+    conn = sqlite3.connect(path+'/'+db_filename)
+    cur = conn.cursor()
 
-#     rest_dict = {}
+    loc_cat_dict = {}
 
-#     cur.execute("SELECT Restaurants.category_id, Categories.title FROM Restaurants JOIN Categories ON Restaurants.category_id = Categories.id")
+    cur.execute("SELECT musixmatch_genre.genre_name, SongkickDATA.metroarea_id FROM SongkickDATA JOIN musixmatch_genre ON SongkickDATA.head_artist = musixmatch_genre.artist_name")
 
-#     fetched = cur.fetchall()
+    fetched = cur.fetchall()
 
-#     for count in fetched:
-#         # if count[1]   not in rest_dict:
-#         #     rest_dict[count[1]] =1
-#         # else:
-#         #     rest_dict[count[1]] += 1
-#         rest_dict[count[1]] = rest_dict.get(count[1], 0) + 1
+    for met_id in fetched:
+        loc_cat_dict[met_id[1]] = loc_cat_dict.get(met_id[1], 0) + 1
    
-#     return rest_dict
+    print(loc_cat_dict)
+    return loc_cat_dict
 
 
 def main():
-    locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
-    for location in locations:
-        locID = get_locid_songkick(location)
-        setUpSKlcdTable(locID[0])
-        info = get_data_songkick(locID[1])
-        # print(info[1])
-        setUpSKlcdDATA(info[0])
-        for artist in info[1]:
-            artist_info = musixmatch_artist_search(artist)
-            if artist_info == None:
-                continue
-            artist_genre = album_get(artist_info[1])    
-            if artist_genre == None:
-                continue
-            setupMMsearchTable(artist_info[0])
-            setupGenreTable(artist_genre)
+    # locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
+    # for location in locations:
+    #     locID = get_locid_songkick(location)
+    #     setUpSKlcdTable(locID[0])
+    #     info = get_data_songkick(locID[1])
+    #     # print(info[1])
+    #     setUpSKlcdDATA(info[0])
+    #     for artist in info[1]:
+    #         artist_info = musixmatch_artist_search(artist)
+    #         if artist_info == None:
+    #             continue
+    #         artist_genre = album_get(artist_info[1])    
+    #         if artist_genre == None:
+    #             continue
+    #         setupMMsearchTable(artist_info[0])
+    #         setupGenreTable(artist_genre)
+    get_category_dict('finalapi.sqlite')
 
 main()
