@@ -35,7 +35,7 @@ def get_data_songkick(metro_areaID):
 def musixmatch_artist_search(artist):
     try:
         api_key = "ca6e551b9b248119f6d8bd4c56d39613"
-        url = " https://api.musixmatch.com/ws/1.1/artist.search?q_artist=" + artist + "&page_size=1&apikey=" + api_key
+        url = "https://api.musixmatch.com/ws/1.1/artist.search?q_artist=" + artist + "&page_size=1&apikey=" + api_key
         artist_search = requests.get(url)
         # print(artist_search.text)
         artist_info = json.loads(artist_search.text)
@@ -52,7 +52,7 @@ def musixmatch_artist_search(artist):
 def album_get(artist_id):
     try:
         api_key = "ca6e551b9b248119f6d8bd4c56d39613"
-        url = " https://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id +"&g_album_name=1&page=1&page_size=1&apikey=" + api_key
+        url = "https://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id +"&g_album_name=1&page=1&page_size=1&apikey=" + api_key
         album_search = requests.get(url)
         album_info = json.loads(album_search.text)
         if len(album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"]) == 0:
@@ -115,6 +115,7 @@ def main():
         locID = get_locid_songkick(location)
         setUpSKlcdTable(locID[0])
         info = get_data_songkick(locID[1])
+        print(info[1])
         setUpSKlcdDATA(info[0])
         for artist in info[1]:
             artist_info = musixmatch_artist_search(artist)
@@ -125,5 +126,6 @@ def main():
                 continue
             # print(artist_genre[1])
             # print(artist_info[1])
+            print(artist_info[0])
         setupMMsearchTable(artist_info[0])
 main()
