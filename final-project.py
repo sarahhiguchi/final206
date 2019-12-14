@@ -108,6 +108,18 @@ def setupMMsearchTable(data):
 
     conn.commit()
 
+def setupGenreTable(data):
+    conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
+    cur = conn.cursor()
+    cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_genre(artist_name TEXT, genre_name TEXT)')
+
+    _artist_name = data[0]['message']['body']['album_list'][0]['album']['artist_name']
+    _genre_name = data[1]
+    cur.execute('INSERT INTO musixmatch_genre (artist_name, genre_name) VALUES (?, ?)',
+            (_artist_name, _genre_name))
+
+    conn.commit()
+
 
 def main():
     locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
@@ -123,7 +135,6 @@ def main():
             artist_genre = album_get(artist_info[1])    
             if artist_genre == None:
                 continue
-            # print(artist_genre[1])
-            # print(artist_info[1])
             setupMMsearchTable(artist_info[0])
+            setupGenreTable(artist_genre)
 main()
