@@ -43,7 +43,8 @@ def musixmatch_artist_search(artist):
             pass
         else:
             artist_id = str(artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_id"])
-            return artist_info, artist_id
+            artist_rating = artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_rating"]
+            return artist_info, artist_id, artist_rating
     except:
         print("Error when reading from url artist id")
         pass
@@ -98,13 +99,14 @@ def setUpSKlcdDATA(data):
 def setupMMsearchTable(data):
     conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
     cur = conn.cursor()
-    cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_artists(artist_name TEXT, artist_id INTEGER)')
+    cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_artists(artist_name TEXT, artist_id INTEGER, artist_rating INTEGER)')
 
     for artist in data['message']['body']['artist_list']:
         _artist_name = artist['artist']['artist_name']
         _artist_id = artist['artist']['artist_id']
-        cur.execute('INSERT INTO musixmatch_artists (artist_name, artist_id) VALUES (?, ?)',
-                 (_artist_name, _artist_id))
+        _artist_rating = artist['artist']['artist_rating']
+        cur.execute('INSERT INTO musixmatch_artists (artist_name, artist_id, artist_rating) VALUES (?, ?, ?)',
+                 (_artist_name, _artist_id, _artist_rating))
 
     conn.commit()
 
