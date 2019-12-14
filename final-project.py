@@ -13,7 +13,7 @@ def get_locid_songkick(loc):
         info = json.loads(loc_r.text)
         return info, info["resultsPage"]["results"]["location"][0]["metroArea"]["id"]
     except: 
-        print("Error when reading from url")
+        print("Error when reading from url location")
         pass
 
 def get_data_songkick(metro_areaID):
@@ -27,7 +27,7 @@ def get_data_songkick(metro_areaID):
             artists.append(event["performance"][0]["displayName"])
         return data, artists 
     except: 
-        print("Error when reading from url")
+        print("Error when reading from url metro id")
         pass
 
     
@@ -45,7 +45,7 @@ def musixmatch_artist_search(artist):
             artist_id = str(artist_info["message"]["body"]["artist_list"][0]["artist"]["artist_id"])
             return artist_info, artist_id
     except:
-        print("Error when reading from url")
+        print("Error when reading from url artist id")
         pass
 
     
@@ -60,7 +60,7 @@ def album_get(artist_id):
         else:
             return album_info, album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"][0]["music_genre"]["music_genre_name"]
     except:
-        print("Error when reading from url")
+        print("Error when reading from url genre")
         pass
 
 
@@ -100,9 +100,9 @@ def setupMMsearchTable(data):
     cur = conn.cursor()
     cur.execute('CREATE TABLE IF NOT EXISTS musixmatch_artists(artist_name TEXT, artist_id INTEGER)')
 
-    for artist in data['message']['body']['artist_list'][0]['artist']:
-        _artist_name = artist['artist_name']
-        _artist_id = artist['artist_id']
+    for artist in data['message']['body']['artist_list']:
+        _artist_name = artist['artist']['artist_name']
+        _artist_id = artist['artist']['artist_id']
         cur.execute('INSERT INTO musixmatch_artists (artist_name, artist_id) VALUES (?, ?)',
                  (_artist_name, _artist_id))
 
@@ -126,6 +126,10 @@ def main():
                 continue
             # print(artist_genre[1])
             # print(artist_info[1])
+<<<<<<< HEAD
             print(artist_info[0])
         setupMMsearchTable(artist_info[0])
+=======
+            setupMMsearchTable(artist_info[0])
+>>>>>>> 2c741ca3018a7abe7f53ebc8cd74f7d87eb96b0b
 main()
