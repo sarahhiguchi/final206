@@ -146,8 +146,12 @@ def get_category_dict(db_filename):
             loc_genre[genre] = loc_genre.get(genre, 0) + 1
         final_dict[location] = loc_genre
 
-    print(final_dict)
     return final_dict
+
+def write_to_file(data):
+    with open('desktop/final206/calculations.txt', 'w') as file:    
+        file.write(json.dumps(data))
+        file.close()
 
 def main():
     # locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
@@ -166,6 +170,7 @@ def main():
     #             continue
     #         setupMMsearchTable(artist_info[0])
     #         setupGenreTable(artist_genre)
-    get_category_dict('finalapi.sqlite')
+    data = get_category_dict('finalapi.sqlite')
+    write_to_file(data)
 
 main()
