@@ -129,17 +129,25 @@ def get_category_dict(db_filename):
     cur = conn.cursor()
 
     loc_cat_dict = {}
-
+    final_dict = {}
     cur.execute("SELECT musixmatch_genre.genre_name, SongkickDATA.metroarea_id FROM SongkickDATA JOIN musixmatch_genre ON SongkickDATA.head_artist = musixmatch_genre.artist_name")
 
     fetched = cur.fetchall()
 
     for met_id in fetched:
-        loc_cat_dict[met_id[1]] = loc_cat_dict.get(met_id[1], 0) + 1
-   
-    print(loc_cat_dict)
-    return loc_cat_dict
+        if met_id[1] in loc_cat_dict:
+            loc_cat_dict[met_id[1]].append(met_id[0])
+        else:
+            loc_cat_dict[met_id[1]] = [met_id[0]]
+    
+    for location in loc_cat_dict:
+        loc_genre = {}
+        for genre in loc_cat_dict[location]:
+            loc_genre[genre] = loc_genre.get(genre, 0) + 1
+        final_dict[location] = loc_genre
 
+    print(final_dict)
+    return final_dict
 
 def main():
     # locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
