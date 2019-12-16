@@ -1,41 +1,45 @@
 {
-   "7644": {
-      "Singer/Songwriter": 2,
-      "Pop": 1,
-      "Country": 1,
-      "No genre": 6,
-      "Rock": 1,
-      "Jazz": 2
+   "New York": {
+      "Jazz": 5,
+      "No genre": 5,
+      "Alternative": 1,
+      "Soundtrack": 1
    },
-   "18073": {
-      "Rock": 2,
+   "Detroit": {
+      "Rock": 4,
       "No genre": 1,
-      "Music": 1,
+      "Heavy Metal": 1,
       "Blues": 1,
-      "Electronic": 2,
-      "Heavy Metal": 1
-   },
-   "9426": {
-      "Rock": 2,
-      "Electronic": 2,
-      "Holiday": 1,
-      "Alternative": 2,
+      "Christian & Gospel": 1,
+      "Alternative": 1,
       "Country": 1,
-      "No genre": 1,
-      "Easy Listening": 1
+      "R&B/Soul": 1,
+      "Comedy": 1,
+      "Alternative Folk": 1,
+      "Jazz": 1,
+      "Music": 1
    },
-   "17835": {
-      "Rock": 2,
+   "Chicago": {
+      "Rock": 3,
+      "R&B/Soul": 1,
+      "Comedy": 1,
+      "No genre": 1
+   },
+   "Los Angeles": {
+      "Alternative": 3,
       "No genre": 2,
-      "Pop": 2,
-      "Jazz": 2,
-      "Comedy": 1
+      "Indie Rock": 1,
+      "Singer/Songwriter": 2,
+      "Rock": 1,
+      "Alternative & Rock in Spanish": 1,
+      "Folk": 1
    },
-   "2846": {
+   "Seattle": {
       "Alternative": 2,
-      "No genre": 7,
-      "Classical": 1,
-      "World": 1,
-      "Pop": 1
+      "No genre": 5,
+      "Rock": 3,
+      "Singer/Songwriter": 1,
+      "Heavy Metal": 1,
+      "New Age": 1
    }
 }

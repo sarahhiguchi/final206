@@ -2,7 +2,7 @@ import requests
 import sqlite3
 import json
 import os
-
+import re
 
 
 def get_locid_songkick(loc):
@@ -84,7 +84,7 @@ def setUpSKlcdTable(data):
 def setUpSKlcdDATA(data):
     conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
     cur = conn.cursor()
-    cur.execute('CREATE TABLE IF NOT EXISTS SongkickDATA(event_name TEXT, head_artist TEXT, event_id INTEGER, city TEXT, metroarea_id INTEGER)')
+    cur.execute('CREATE TABLE IF NOT EXISTS SongkickDATA(event_name TEXT, head_artist TEXT, event_id INTEGER, city TEXT, metroarea_id INTEGER, metroarea_name TEXT)')
 
     for event in data['resultsPage']['results']['event']:
         _event_name = event['displayName']
@@ -92,8 +92,9 @@ def setUpSKlcdDATA(data):
         _event_id = event['id']
         _city = event['location']['city']
         _metroarea_id = event['venue']['metroArea']['id']
-        cur.execute('INSERT INTO SongkickDATA (event_name, head_artist, event_id, city, metroarea_id) VALUES (?, ?, ?, ?, ?)',
-                 (_event_name, _head_artist, _event_id, _city, _metroarea_id))
+        _metroarea_name = event['venue']['metroArea']['displayName'].split(' (')[0]
+        cur.execute('INSERT INTO SongkickDATA (event_name, head_artist, event_id, city, metroarea_id, metroarea_name) VALUES (?, ?, ?, ?, ?, ?)',
+                 (_event_name, _head_artist, _event_id, _city, _metroarea_id, _metroarea_name))
 
     conn.commit()
 
@@ -130,7 +131,7 @@ def get_category_dict(db_filename):
 
     loc_cat_dict = {}
     final_dict = {}
-    cur.execute("SELECT musixmatch_genre.genre_name, SongkickDATA.metroarea_id FROM SongkickDATA JOIN musixmatch_genre ON SongkickDATA.head_artist = musixmatch_genre.artist_name")
+    cur.execute("SELECT musixmatch_genre.genre_name, SongkickDATA.metroarea_name FROM SongkickDATA JOIN musixmatch_genre ON SongkickDATA.head_artist = musixmatch_genre.artist_name")
 
     fetched = cur.fetchall()
 
@@ -203,22 +204,21 @@ def bar_chart(final_dict):
 
 
 def main():
-    # locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
-    # for location in locations:
-    #     locID = get_locid_songkick(location)
-    #     setUpSKlcdTable(locID[0])
-    #     info = get_data_songkick(locID[1])
-    #     # print(info[1])
-    #     setUpSKlcdDATA(info[0])
-    #     for artist in info[1]:
-    #         artist_info = musixmatch_artist_search(artist)
-    #         if artist_info == None:
-    #             continue
-    #         artist_genre = album_get(artist_info[1])    
-    #         if artist_genre == None:
-    #             continue
-    #         setupMMsearchTable(artist_info[0])
-    #         setupGenreTable(artist_genre)
+    locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
+    for location in locations:
+        locID = get_locid_songkick(location)
+        setUpSKlcdTable(locID[0])
+        info = get_data_songkick(locID[1])
+        setUpSKlcdDATA(info[0])
+        for artist in info[1]:
+            artist_info = musixmatch_artist_search(artist)
+            if artist_info == None:
+                continue
+            artist_genre = album_get(artist_info[1])    
+            if artist_genre == None:
+                continue
+            setupMMsearchTable(artist_info[0])
+            setupGenreTable(artist_genre)
     fin_dict = get_category_dict('finalapi.sqlite')
     # print(fin_dict)
     write_to_file(fin_dict)
