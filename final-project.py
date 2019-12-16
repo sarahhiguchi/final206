@@ -146,12 +146,11 @@ def get_category_dict(db_filename):
             loc_genre[genre] = loc_genre.get(genre, 0) + 1
         final_dict[location] = loc_genre
 
-    # print(final_dict)
     return final_dict
 
 def write_to_file(data):
     with open('desktop/final206/calculations.txt', 'w') as file:    
-        file.write(json.dumps(data))
+        file.write(json.dumps(data, indent=3))
         file.close()
         
 def bar_chart(final_dict):
@@ -222,6 +221,7 @@ def main():
     #         setupGenreTable(artist_genre)
     fin_dict = get_category_dict('finalapi.sqlite')
     # print(fin_dict)
+    write_to_file(fin_dict)
     bar_chart(fin_dict)
 
 main()
