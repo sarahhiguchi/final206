@@ -155,13 +155,47 @@ def write_to_file(data):
         file.close()
         
 def bar_chart(final_dict):
-    # getting data fro graphs in lists
+    # get big list of sorted data
     big_list = []
     for key1, value1 in final_dict.items():
         sortedlist = sorted(value1.items(), key=lambda kv: kv[1], reverse=True)
-        print(sortedlist)
+        # print(sortedlist)
         big_list.append(sortedlist)
-    return(big_list)
+    # return(big_list)
+
+    # get data for 7644 aka New York in a list
+    ny_cat = []
+    ny_num = []
+    for tup in big_list[0]:
+        ny_cat.append(tup[0])
+        ny_num.append(tup[1])
+    
+    # get data for 18076 aka Detroit in a list
+    d_cat = []
+    d_num = []
+    for tup in big_list[1]:
+        d_cat.append(tup[0])
+        d_num.append(tup[1])
+    
+    # get data for 9426 aka Chicago in a list
+    chi_cat = []
+    chi_num = []
+    for tup in big_list[2]:
+        chi_cat.append(tup[0])
+        chi_num.append(tup[1])
+    
+    # get data for 17835 aka Los Angeles
+    la_cat = []
+    la_num = []
+    for tup in big_list[3]:
+        la_cat.append(tup[0])
+        la_num.append(tup[1])
+    # get data for 2846 aka Seattle
+    s_cat = []
+    s_num = []
+    for tup in big_list[4]:
+        s_cat.append(tup[0])
+        s_num.append(tup[1])
 
 
 
@@ -187,6 +221,7 @@ def main():
     #         setupMMsearchTable(artist_info[0])
     #         setupGenreTable(artist_genre)
     fin_dict = get_category_dict('finalapi.sqlite')
+    # print(fin_dict)
     bar_chart(fin_dict)
 
 main()
