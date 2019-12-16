@@ -146,12 +146,34 @@ def get_category_dict(db_filename):
             loc_genre[genre] = loc_genre.get(genre, 0) + 1
         final_dict[location] = loc_genre
 
+    # print(final_dict)
     return final_dict
 
 def write_to_file(data):
     with open('desktop/final206/calculations.txt', 'w') as file:    
         file.write(json.dumps(data))
         file.close()
+        
+def bar_chart(final_dict):
+    # getting data fro graphs in lists
+    big_list = []
+    for key1, value1, in final_dict.items:
+        for key2 in value1:
+            sortedlist = sorted(key2.items(), key=lambda kv: kv[1], reverse=True)
+            print(sortedlist)
+            big_list.append(sortedlist)
+
+        # sortedlist = sorted(dict[location].items( key=lambda l:l[1], reverse = True))
+        # for key, value in sorted(location.items(), key=lambda kv: kv[1], reverse=True)
+        # k: v for k, v in sorted(location.items(), key=lambda item: item[1])
+    # print(big_list)
+    return(big_list)
+
+
+
+
+
+
 
 def main():
     # locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
@@ -170,7 +192,7 @@ def main():
     #             continue
     #         setupMMsearchTable(artist_info[0])
     #         setupGenreTable(artist_genre)
-    data = get_category_dict('finalapi.sqlite')
-    write_to_file(data)
+    fin_dict = get_category_dict('finalapi.sqlite')
+    bar_chart(fin_dict)
 
 main()
