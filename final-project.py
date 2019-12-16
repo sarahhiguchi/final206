@@ -157,16 +157,10 @@ def write_to_file(data):
 def bar_chart(final_dict):
     # getting data fro graphs in lists
     big_list = []
-    for key1, value1, in final_dict.items:
-        for key2 in value1:
-            sortedlist = sorted(key2.items(), key=lambda kv: kv[1], reverse=True)
-            print(sortedlist)
-            big_list.append(sortedlist)
-
-        # sortedlist = sorted(dict[location].items( key=lambda l:l[1], reverse = True))
-        # for key, value in sorted(location.items(), key=lambda kv: kv[1], reverse=True)
-        # k: v for k, v in sorted(location.items(), key=lambda item: item[1])
-    # print(big_list)
+    for key1, value1 in final_dict.items():
+        sortedlist = sorted(value1.items(), key=lambda kv: kv[1], reverse=True)
+        print(sortedlist)
+        big_list.append(sortedlist)
     return(big_list)
 
 
