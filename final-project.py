@@ -2,6 +2,9 @@ import requests
 import sqlite3
 import json
 import os
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 
@@ -169,6 +172,7 @@ def bar_chart(final_dict):
     for tup in big_list[0]:
         ny_cat.append(tup[0])
         ny_num.append(tup[1])
+
     
     # get data for 18076 aka Detroit in a list
     d_cat = []
@@ -176,6 +180,7 @@ def bar_chart(final_dict):
     for tup in big_list[1]:
         d_cat.append(tup[0])
         d_num.append(tup[1])
+
     
     # get data for 9426 aka Chicago in a list
     chi_cat = []
@@ -183,19 +188,70 @@ def bar_chart(final_dict):
     for tup in big_list[2]:
         chi_cat.append(tup[0])
         chi_num.append(tup[1])
+
     
-    # get data for 17835 aka Los Angeles
+    # get data for 17835 aka Los Angeles in a list
     la_cat = []
     la_num = []
     for tup in big_list[3]:
         la_cat.append(tup[0])
         la_num.append(tup[1])
-    # get data for 2846 aka Seattle
+   
+    # get data for 2846 aka Seattle in a list
     s_cat = []
     s_num = []
     for tup in big_list[4]:
         s_cat.append(tup[0])
         s_num.append(tup[1])
+
+   
+    
+    # Initialize the plot
+    fig = plt.figure(figsize=(20,6))
+    
+    # plt.xticks(rotation=90)
+    # plt.xlabel('Genre Catagories')
+    # plt.ylabel('Genre Catagories')
+    plt.tight_layout()
+    plt.suptitle('Most popular Genres in Metro Area According to SongKick Events')
+    
+    ax1 = fig.add_subplot(321)
+    ax2 = fig.add_subplot(322)
+    ax3 = fig.add_subplot(323)
+    ax4 = fig.add_subplot(324)
+    ax5 = fig.add_subplot(325)
+
+
+    # plot the data
+    ax1.bar(ny_cat, ny_num)
+    ax2.bar(d_cat, d_num)
+    ax3.bar(chi_cat, chi_num)
+    ax4.bar(la_cat, la_num)
+    ax5.bar(s_cat, s_num)
+
+    # label x and y labels
+
+    ax1.set_xlabel('Genre Catagories', fontsize=10)
+    ax1.set_ylabel('Number of Events', fontsize=12)
+    ax1.set_title('New York', fontsize=12)
+
+    ax2.set_xlabel('Genre Catagories', fontsize=10)
+    ax2.set_ylabel('Number of Events', fontsize=12)
+    ax2.set_title('Detroit', fontsize=12)
+
+    ax3.set_xlabel('Genre Catagories', fontsize=10)
+    ax3.set_ylabel('Number of Events', fontsize=12)
+    ax3.set_title('Chicago', fontsize=12)
+
+    ax4.set_xlabel('Genre Catagories', fontsize=10)
+    ax4.set_ylabel('Number of Events', fontsize=12)
+    ax4.set_title('Los Angeles', fontsize=12)
+
+    ax5.set_xlabel('Genre Catagories', fontsize=10)
+    ax5.set_ylabel('Number of Events', fontsize=12)
+    ax5.set_title('Seattle', fontsize=12)
+
+    plt.show()
 
 
 
