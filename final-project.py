@@ -260,21 +260,21 @@ def bar_chart(final_dict):
 
 
 def main():
-    # locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
-    # for location in locations:
-    #     locID = get_locid_songkick(location)
-    #     setUpSKlcdTable(locID[0])
-    #     info = get_data_songkick(locID[1])
-    #     setUpSKlcdDATA(info[0])
-    #     for artist in info[1]:
-    #         artist_info = musixmatch_artist_search(artist)
-    #         if artist_info == None:
-    #             continue
-    #         artist_genre = album_get(artist_info[1])    
-    #         if artist_genre == None:
-    #             continue
-    #         setupMMsearchTable(artist_info[0])
-    #         setupGenreTable(artist_genre)
+    locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
+    for location in locations:
+        locID = get_locid_songkick(location)
+        setUpSKlcdTable(locID[0])
+        info = get_data_songkick(locID[1])
+        setUpSKlcdDATA(info[0])
+        for artist in info[1]:
+            artist_info = musixmatch_artist_search(artist)
+            if artist_info == None:
+                continue
+            artist_genre = album_get(artist_info[1])    
+            if artist_genre == None:
+                continue
+            setupMMsearchTable(artist_info[0])
+            setupGenreTable(artist_genre)
     fin_dict = get_category_dict('finalapi.sqlite')
     write_to_file(fin_dict)
     bar_chart(fin_dict)
