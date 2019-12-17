@@ -2,6 +2,9 @@ import requests
 import sqlite3
 import json
 import os
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
 import re
 
 
@@ -169,6 +172,7 @@ def bar_chart(final_dict):
     for tup in big_list[0]:
         ny_cat.append(tup[0])
         ny_num.append(tup[1])
+
     
     # get data for 18076 aka Detroit in a list
     d_cat = []
@@ -176,6 +180,7 @@ def bar_chart(final_dict):
     for tup in big_list[1]:
         d_cat.append(tup[0])
         d_num.append(tup[1])
+
     
     # get data for 9426 aka Chicago in a list
     chi_cat = []
@@ -183,45 +188,120 @@ def bar_chart(final_dict):
     for tup in big_list[2]:
         chi_cat.append(tup[0])
         chi_num.append(tup[1])
+
     
-    # get data for 17835 aka Los Angeles
+    # get data for 17835 aka Los Angeles in a list
     la_cat = []
     la_num = []
     for tup in big_list[3]:
         la_cat.append(tup[0])
         la_num.append(tup[1])
-    # get data for 2846 aka Seattle
+   
+    # get data for 2846 aka Seattle in a list
     s_cat = []
     s_num = []
     for tup in big_list[4]:
         s_cat.append(tup[0])
         s_num.append(tup[1])
 
+   
+    
+    # Initialize the plot
+    fig = plt.figure(figsize=(20,6))
+    
+    # plt.xticks(rotation=90)
+    # plt.xlabel('Genre Catagories')
+    # plt.ylabel('Genre Catagories')
+    plt.tight_layout()
+    plt.suptitle('Most popular Genres in Metro Area According to SongKick Events')
+    
+    ax1 = fig.add_subplot(321)
+    ax2 = fig.add_subplot(322)
+    ax3 = fig.add_subplot(323)
+    ax4 = fig.add_subplot(324)
+    ax5 = fig.add_subplot(325)
 
 
+    # plot the data
+    ax1.bar(ny_cat, ny_num)
+    ax2.bar(d_cat, d_num)
+    ax3.bar(chi_cat, chi_num)
+    ax4.bar(la_cat, la_num)
+    ax5.bar(s_cat, s_num)
+
+    # label x and y labels
+
+    ax1.set_xlabel('Genre Catagories', fontsize=10)
+    ax1.set_ylabel('Number of Events', fontsize=12)
+    ax1.set_title('New York', fontsize=12)
+
+    ax2.set_xlabel('Genre Catagories', fontsize=10)
+    ax2.set_ylabel('Number of Events', fontsize=12)
+    ax2.set_title('Detroit', fontsize=12)
+
+    ax3.set_xlabel('Genre Catagories', fontsize=10)
+    ax3.set_ylabel('Number of Events', fontsize=12)
+    ax3.set_title('Chicago', fontsize=12)
+
+    ax4.set_xlabel('Genre Catagories', fontsize=10)
+    ax4.set_ylabel('Number of Events', fontsize=12)
+    ax4.set_title('Los Angeles', fontsize=12)
+
+    ax5.set_xlabel('Genre Catagories', fontsize=10)
+    ax5.set_ylabel('Number of Events', fontsize=12)
+    ax5.set_title('Seattle', fontsize=12)
+
+    plt.show()
+
+def get_percentages_genres(final_dict):
+    all_genres_count = {}
+    perc_lis = []
+    for city in final_dict:
+        for genre in final_dict[city]:
+                all_genres_count[genre] = all_genres_count.get(genre, 0) + 1
+    total = sum(all_genres_count.values())
+    for genre in all_genres_count:
+        perc_lis.append(all_genres_count[genre]/total)
+    
+    return perc_lis
+
+def make_pie(percentages):
+    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+    labels = 'New York', 'Detroit', 'Seattle', 'Boston/Cambridge', 'Cincinatti', 'San Francisco'
+    sizes = percentages
+    explode = (0, 0, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+
+    fig1, ax1 = plt.subplots()
+    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+            shadow=True, startangle=90)
+    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    plt.show()
 
 
 
 
 def main():
-    locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
-    for location in locations:
-        locID = get_locid_songkick(location)
-        setUpSKlcdTable(locID[0])
-        info = get_data_songkick(locID[1])
-        setUpSKlcdDATA(info[0])
-        for artist in info[1]:
-            artist_info = musixmatch_artist_search(artist)
-            if artist_info == None:
-                continue
-            artist_genre = album_get(artist_info[1])    
-            if artist_genre == None:
-                continue
-            setupMMsearchTable(artist_info[0])
-            setupGenreTable(artist_genre)
+    # locations = ["New York", "Detroit", "Los Angeles", "Seattle", "Boston", "Cincinatti", "San Francisco"]
+    # for location in locations:
+    #     locID = get_locid_songkick(location)
+    #     setUpSKlcdTable(locID[0])
+    #     info = get_data_songkick(locID[1])
+    #     # print(info)
+    #     setUpSKlcdDATA(info[0])
+    #     for artist in info[1]:
+    #         artist_info = musixmatch_artist_search(artist)
+    #         if artist_info == None:
+    #             continue
+    #         artist_genre = album_get(artist_info[1])    
+    #         if artist_genre == None:
+    #             continue
+    #         setupMMsearchTable(artist_info[0])
+    #         setupGenreTable(artist_genre)
     fin_dict = get_category_dict('finalapi.sqlite')
-    # print(fin_dict)
-    write_to_file(fin_dict)
+    print(fin_dict)
+    # write_to_file(fin_dict)
     bar_chart(fin_dict)
-
+    percent_list = get_percentages_genres(fin_dict)
+    print(percent_list)
 main()

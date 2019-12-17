@@ -1,17 +1,17 @@
 {
    "New York": {
-      "Jazz": 5,
+      "Jazz": 6,
       "No genre": 5,
-      "Alternative": 1,
-      "Soundtrack": 1
+      "Praise & Worship": 1,
+      "Singer/Songwriter": 1
    },
    "Detroit": {
-      "Rock": 4,
-      "No genre": 1,
+      "Rock": 3,
       "Heavy Metal": 1,
       "Blues": 1,
       "Christian & Gospel": 1,
       "Alternative": 1,
+      "No genre": 1,
       "Country": 1,
       "R&B/Soul": 1,
       "Comedy": 1,
@@ -19,27 +19,40 @@
       "Jazz": 1,
       "Music": 1
    },
-   "Chicago": {
-      "Rock": 3,
-      "R&B/Soul": 1,
-      "Comedy": 1,
-      "No genre": 1
-   },
    "Los Angeles": {
-      "Alternative": 3,
-      "No genre": 2,
-      "Indie Rock": 1,
-      "Singer/Songwriter": 2,
-      "Rock": 1,
-      "Alternative & Rock in Spanish": 1,
-      "Folk": 1
+      "No genre": 3,
+      "Alternative": 2,
+      "Pop": 1
    },
    "Seattle": {
       "Alternative": 2,
-      "No genre": 5,
-      "Rock": 3,
-      "Singer/Songwriter": 1,
       "Heavy Metal": 1,
-      "New Age": 1
+      "Rock": 3,
+      "No genre": 5,
+      "New Age": 1,
+      "Electronic": 1
+   },
+   "Boston / Cambridge": {
+      "Pop": 2,
+      "Rock": 2,
+      "Alternative": 2,
+      "No genre": 3,
+      "Singer/Songwriter": 1
+   },
+   "Cincinnati": {
+      "No genre": 3,
+      "Rock": 2,
+      "Christian & Gospel": 1,
+      "Alternative": 1
+   },
+   "SF Bay Area": {
+      "No genre": 5,
+      "Christian & Gospel": 1,
+      "Pop": 1,
+      "Jazz": 1,
+      "Alternative": 1,
+      "Folk": 1,
+      "Music": 1,
+      "Punk": 1
    }
 }
