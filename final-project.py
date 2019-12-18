@@ -84,7 +84,6 @@ def setUpSKlcdTable(data):
 
     conn.commit()
 
-
 def setUpSKlcdDATA(data):
     conn = sqlite3.connect('desktop/final206/finalapi.sqlite')
     cur = conn.cursor()
@@ -158,7 +157,7 @@ def write_to_file(data):
         file.write(json.dumps(data, indent=3))
         file.close()
         
-def bar_chart(final_dict):
+def bar_chart(final_dict, loc_list):
     # get big list of sorted data
     big_list = []
     for key1, value1 in final_dict.items():
@@ -231,6 +230,8 @@ def bar_chart(final_dict):
     ax6 = fig.add_subplot(426)
     ax7 = fig.add_subplot(427)
 
+    axis_list = [ax1,ax2,ax3,ax3,ax5,ax6,ax7]
+
     # plot the data
     ax1.bar(ny_cat, ny_num)
     ax2.bar(d_cat, d_num)
@@ -243,31 +244,36 @@ def bar_chart(final_dict):
     # label x and y labels
     ax1.set_xlabel('Genre Catagories', fontsize=10)
     ax1.set_ylabel('Number of Events', fontsize=10)
-    ax1.set_title('New York', fontsize=10)
+    
 
     ax2.set_xlabel('Genre Catagories', fontsize=10)
     ax2.set_ylabel('Number of Events', fontsize=10)
-    ax2.set_title('Detroit', fontsize=10)
+ 
     
     ax3.set_xlabel('Genre Catagories', fontsize=10)
     ax3.set_ylabel('Number of Events', fontsize=10)
-    ax3.set_title('Los Angeles', fontsize=10)
+
 
     ax4.set_xlabel('Genre Catagories', fontsize=10)
     ax4.set_ylabel('Number of Events', fontsize=10)
-    ax4.set_title('Seattle', fontsize=10)
+  
 
     ax5.set_xlabel('Genre Catagories', fontsize=10)
     ax5.set_ylabel('Number of Events', fontsize=10)
-    ax5.set_title('Boston', fontsize=10)
+    
 
     ax6.set_xlabel('Genre Catagories', fontsize=10)
     ax6.set_ylabel('Number of Events', fontsize=10)
-    ax6.set_title('Cincinatti', fontsize=10)
+
 
     ax7.set_xlabel('Genre Catagories', fontsize=10)
     ax7.set_ylabel('Number of Events', fontsize=10)
-    ax7.set_title('San Francisco', fontsize=10)
+  
+
+    # add titles
+    for axis in axis_list:
+        axis.set_title(loc_list[axis_list.index(axis)], fontsize =10)
+        
 
     plt.show()
 
@@ -302,7 +308,7 @@ def make_pie(percentages):
 
 def main():
     # print("================================STARTING NEW==============================")
-    # locations = ["New York", "Detroit", "Los Angeles", "Seattle", "Boston", "Cincinatti", "San Francisco"]
+    locations = ["New York", "Detroit", "Los Angeles", "Seattle", "Boston", "Cincinatti", "San Francisco"]
     # for location in locations:
     #     locID = get_locid_songkick(location)
     #     setUpSKlcdTable(locID[0])
@@ -321,7 +327,7 @@ def main():
 
     fin_dict = get_category_dict('finalapi.sqlite')
     write_to_file(fin_dict)
-    bar_chart(fin_dict)
+    bar_chart(fin_dict,locations)
     percent_list = get_percentages_genres(fin_dict)
     make_pie(percent_list)
 
