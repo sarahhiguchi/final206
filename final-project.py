@@ -41,7 +41,7 @@ def musixmatch_artist_search(artist):
         api_key = "ca6e551b9b248119f6d8bd4c56d39613"
         url = "https://api.musixmatch.com/ws/1.1/artist.search?q_artist=" + artist + "&page_size=1&apikey=" + api_key
         artist_search = requests.get(url)
-        print(artist_search.text + "END OF ARTIST SEARCH")
+        # print(artist_search.text)
         artist_info = json.loads(artist_search.text)
         if len(artist_info["message"]["body"]["artist_list"]) == 0:
             pass
@@ -59,7 +59,7 @@ def album_get(artist_id):
         api_key = "ca6e551b9b248119f6d8bd4c56d39613"
         url = "https://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id +"&g_album_name=1&page=1&page_size=1&apikey=" + api_key
         album_search = requests.get(url)
-        print(album_search.text)
+        # print(album_search.text)
         album_info = json.loads(album_search.text)
         if len(album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"]) == 0:
             return album_info, "No genre"
@@ -181,76 +181,93 @@ def bar_chart(final_dict):
     for tup in big_list[1]:
         d_cat.append(tup[0])
         d_num.append(tup[1])
-
-    
-    # get data for 9426 aka Chicago in a list
-    chi_cat = []
-    chi_num = []
-    for tup in big_list[2]:
-        chi_cat.append(tup[0])
-        chi_num.append(tup[1])
-
-    
+   
     # get data for 17835 aka Los Angeles in a list
     la_cat = []
     la_num = []
-    for tup in big_list[3]:
+    for tup in big_list[2]:
         la_cat.append(tup[0])
         la_num.append(tup[1])
    
     # get data for 2846 aka Seattle in a list
     s_cat = []
     s_num = []
-    for tup in big_list[4]:
+    for tup in big_list[3]:
         s_cat.append(tup[0])
         s_num.append(tup[1])
 
-   
-    
+    # get data for 2846 aka Boston in a list
+    b_cat = []
+    b_num = []
+    for tup in big_list[4]:
+        b_cat.append(tup[0])
+        b_num.append(tup[1])
+
+    # get data for 2846 aka Cincinatti in a list
+    cin_cat = []
+    cin_num = []
+    for tup in big_list[5]:
+        cin_cat.append(tup[0])
+        cin_num.append(tup[1])
+
+    # get data for 2846 aka San Francisco in a list
+    sf_cat = []
+    sf_num = []
+    for tup in big_list[6]:
+        sf_cat.append(tup[0])
+        sf_num.append(tup[1])
+
     # Initialize the plot
     fig = plt.figure(figsize=(20,6))
     
-    # plt.xticks(rotation=90)
-    # plt.xlabel('Genre Catagories')
-    # plt.ylabel('Genre Catagories')
     plt.tight_layout()
     plt.suptitle('Most popular Genres in Metro Area According to SongKick Events')
     
-    ax1 = fig.add_subplot(321)
-    ax2 = fig.add_subplot(322)
-    ax3 = fig.add_subplot(323)
-    ax4 = fig.add_subplot(324)
-    ax5 = fig.add_subplot(325)
-
+    ax1 = fig.add_subplot(421)
+    ax2 = fig.add_subplot(422)
+    ax3 = fig.add_subplot(423)
+    ax4 = fig.add_subplot(424)
+    ax5 = fig.add_subplot(425)
+    ax6 = fig.add_subplot(426)
+    ax7 = fig.add_subplot(427)
 
     # plot the data
     ax1.bar(ny_cat, ny_num)
     ax2.bar(d_cat, d_num)
-    ax3.bar(chi_cat, chi_num)
-    ax4.bar(la_cat, la_num)
-    ax5.bar(s_cat, s_num)
+    ax3.bar(la_cat, la_num)
+    ax4.bar(s_cat, s_num)
+    ax5.bar(b_cat, b_num)
+    ax6.bar(cin_cat, cin_num)
+    ax7.bar(sf_cat, sf_num)   
 
     # label x and y labels
-
     ax1.set_xlabel('Genre Catagories', fontsize=10)
-    ax1.set_ylabel('Number of Events', fontsize=12)
-    ax1.set_title('New York', fontsize=12)
+    ax1.set_ylabel('Number of Events', fontsize=10)
+    ax1.set_title('New York', fontsize=10)
 
     ax2.set_xlabel('Genre Catagories', fontsize=10)
-    ax2.set_ylabel('Number of Events', fontsize=12)
-    ax2.set_title('Detroit', fontsize=12)
-
+    ax2.set_ylabel('Number of Events', fontsize=10)
+    ax2.set_title('Detroit', fontsize=10)
+    
     ax3.set_xlabel('Genre Catagories', fontsize=10)
-    ax3.set_ylabel('Number of Events', fontsize=12)
-    ax3.set_title('Chicago', fontsize=12)
+    ax3.set_ylabel('Number of Events', fontsize=10)
+    ax3.set_title('Los Angeles', fontsize=10)
 
     ax4.set_xlabel('Genre Catagories', fontsize=10)
-    ax4.set_ylabel('Number of Events', fontsize=12)
-    ax4.set_title('Los Angeles', fontsize=12)
+    ax4.set_ylabel('Number of Events', fontsize=10)
+    ax4.set_title('Seattle', fontsize=10)
 
     ax5.set_xlabel('Genre Catagories', fontsize=10)
-    ax5.set_ylabel('Number of Events', fontsize=12)
-    ax5.set_title('Seattle', fontsize=12)
+    ax5.set_ylabel('Number of Events', fontsize=10)
+    ax5.set_title('Boston', fontsize=10)
+
+    ax6.set_xlabel('Genre Catagories', fontsize=10)
+    ax6.set_ylabel('Number of Events', fontsize=10)
+    ax6.set_title('Cincinatti', fontsize=10)
+
+    ax7.set_xlabel('Genre Catagories', fontsize=10)
+    ax7.set_ylabel('Number of Events', fontsize=10)
+    ax7.set_title('San Francisco', fontsize=10)
 
     plt.show()
 
@@ -278,28 +295,29 @@ def make_pie(percentages):
             shadow=True, startangle=90, textprops={'fontsize': 6})
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
-#     plt.show()
+    plt.show()
 
 
 
 
 def main():
-    locations = ["New York", "Detroit", "Los Angeles", "Seattle", "Boston", "Cincinatti", "San Francisco"]
-    for location in locations:
-        locID = get_locid_songkick(location)
-        setUpSKlcdTable(locID[0])
-        info = get_data_songkick(locID[1])
-        # print(info)
-        setUpSKlcdDATA(info[0])
-        for artist in info[1]:
-            artist_info = musixmatch_artist_search(artist)
-            if artist_info == None:
-                continue
-            artist_genre = album_get(artist_info[1])    
-            if artist_genre == None:
-                continue
-            setupMMsearchTable(artist_info[0])
-            setupGenreTable(artist_genre)
+    # print("================================STARTING NEW==============================")
+    # locations = ["New York", "Detroit", "Los Angeles", "Seattle", "Boston", "Cincinatti", "San Francisco"]
+    # for location in locations:
+    #     locID = get_locid_songkick(location)
+    #     setUpSKlcdTable(locID[0])
+    #     info = get_data_songkick(locID[1])
+    #     # print(info)
+    #     setUpSKlcdDATA(info[0])
+    #     for artist in info[1]:
+    #         artist_info = musixmatch_artist_search(artist)
+    #         if artist_info == None:
+    #             continue
+    #         artist_genre = album_get(artist_info[1])    
+    #         if artist_genre == None:
+    #             continue
+    #         setupMMsearchTable(artist_info[0])
+    #         setupGenreTable(artist_genre)
 
     fin_dict = get_category_dict('finalapi.sqlite')
     write_to_file(fin_dict)
