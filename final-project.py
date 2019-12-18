@@ -254,28 +254,29 @@ def bar_chart(final_dict):
 
     plt.show()
 
-# def get_percentages_genres(final_dict):
-#     all_genres_count = {}
-#     perc_lis = []
-#     for city in final_dict:
-#         for genre in final_dict[city]:
-#                 all_genres_count[genre] = all_genres_count.get(genre, 0) + 1
-#     total = sum(all_genres_count.values())
-#     for genre in all_genres_count:
-#         perc_lis.append(all_genres_count[genre]/total)
+def get_percentages_genres(final_dict):
+    all_genres_count = {}
+    genres_percentages = {}
     
-#     return perc_lis
+    for city in final_dict:
+        for genre in final_dict[city]:
+                all_genres_count[genre] = all_genres_count.get(genre, 0) + 1
 
-# def make_pie(percentages):
-#     # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-#     labels = 'New York', 'Detroit', 'Seattle', 'Boston/Cambridge', 'Cincinatti', 'San Francisco'
-#     sizes = percentages
-#     explode = (0, 0, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+    total = sum(all_genres_count.values())
 
-#     fig1, ax1 = plt.subplots()
-#     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-#             shadow=True, startangle=90)
-#     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    for genre in all_genres_count:
+        genres_percentages[genre] = all_genres_count[genre]/total
+    
+    return genres_percentages
+
+def make_pie(percentages):
+    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+    labels = list(percentages.keys())
+    sizes = list(percentages.values())
+    fig1, ax1 = plt.subplots()
+    ax1.pie(sizes, labels=labels, autopct='%1.1f%%',
+            shadow=True, startangle=90, textprops={'fontsize': 6})
+    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
 #     plt.show()
 
@@ -299,10 +300,11 @@ def main():
                 continue
             setupMMsearchTable(artist_info[0])
             setupGenreTable(artist_genre)
+
     fin_dict = get_category_dict('finalapi.sqlite')
-    # print(fin_dict)
-    # write_to_file(fin_dict)
-    # bar_chart(fin_dict)
-    # percent_list = get_percentages_genres(fin_dict)
-    # print(percent_list)
+    write_to_file(fin_dict)
+    bar_chart(fin_dict)
+    percent_list = get_percentages_genres(fin_dict)
+    make_pie(percent_list)
+
 main()
