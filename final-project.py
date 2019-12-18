@@ -219,6 +219,7 @@ def bar_chart(final_dict, loc_list):
     # Initialize the plot
     fig = plt.figure(figsize=(20,6))
     
+    # plt.xticks(rotation=90)
     plt.tight_layout()
     plt.suptitle('Most popular Genres in Metro Area According to SongKick Events')
     
@@ -242,32 +243,33 @@ def bar_chart(final_dict, loc_list):
     ax7.bar(sf_cat, sf_num)   
 
     # label x and y labels
-    ax1.set_xlabel('Genre Catagories', fontsize=10)
-    ax1.set_ylabel('Number of Events', fontsize=10)
+    ax1.tick_params(labelrotation=20)
+    # ax1.set_xlabel('Genre Catagories', fontsize=10)
+    # ax1.set_ylabel('Number of Events', fontsize=10)
     
-
-    ax2.set_xlabel('Genre Catagories', fontsize=10)
-    ax2.set_ylabel('Number of Events', fontsize=10)
+    ax2.tick_params(labelrotation=20)
+    # ax2.set_xlabel('Genre Catagories', fontsize=10)
+    # ax2.set_ylabel('Number of Events', fontsize=10)
  
-    
-    ax3.set_xlabel('Genre Catagories', fontsize=10)
-    ax3.set_ylabel('Number of Events', fontsize=10)
+    ax3.tick_params(labelrotation=20)
+    # ax3.set_xlabel('Genre Catagories', fontsize=10)
+    # ax3.set_ylabel('Number of Events', fontsize=10)
 
-
-    ax4.set_xlabel('Genre Catagories', fontsize=10)
-    ax4.set_ylabel('Number of Events', fontsize=10)
+    ax4.tick_params(labelrotation=20)
+    # ax4.set_xlabel('Genre Catagories', fontsize=10)
+    # ax4.set_ylabel('Number of Events', fontsize=10)
   
-
-    ax5.set_xlabel('Genre Catagories', fontsize=10)
-    ax5.set_ylabel('Number of Events', fontsize=10)
+    ax5.tick_params(labelrotation=20)
+    # ax5.set_xlabel('Genre Catagories', fontsize=10)
+    # ax5.set_ylabel('Number of Events', fontsize=10)
     
+    ax6.tick_params(labelrotation=20)
+    # ax6.set_xlabel('Genre Catagories', fontsize=10)
+    # ax6.set_ylabel('Number of Events', fontsize=10)
 
-    ax6.set_xlabel('Genre Catagories', fontsize=10)
-    ax6.set_ylabel('Number of Events', fontsize=10)
-
-
-    ax7.set_xlabel('Genre Catagories', fontsize=10)
-    ax7.set_ylabel('Number of Events', fontsize=10)
+    ax7.tick_params(labelrotation=20)
+    # ax7.set_xlabel('Genre Catagories', fontsize=10)
+    # ax7.set_ylabel('Number of Events', fontsize=10)
   
 
     # add titles
