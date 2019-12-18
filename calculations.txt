@@ -1,58 +1,80 @@
 {
    "New York": {
-      "Jazz": 6,
-      "No genre": 5,
+      "Jazz": 11,
+      "No genre": 10,
       "Praise & Worship": 1,
-      "Singer/Songwriter": 1
+      "Singer/Songwriter": 1,
+      "Alternative": 1,
+      "Rock": 1,
+      "Big Band": 1,
+      "Comedy": 1,
+      "Music": 1,
+      "R&B/Soul": 1,
+      "Alternative Folk": 1
    },
    "Detroit": {
-      "Rock": 3,
+      "Rock": 5,
       "Heavy Metal": 1,
       "Blues": 1,
-      "Christian & Gospel": 1,
-      "Alternative": 1,
-      "No genre": 1,
-      "Country": 1,
-      "R&B/Soul": 1,
-      "Comedy": 1,
-      "Alternative Folk": 1,
-      "Jazz": 1,
-      "Music": 1
+      "Christian & Gospel": 2,
+      "Alternative": 2,
+      "No genre": 3,
+      "Country": 3,
+      "R&B/Soul": 2,
+      "Comedy": 2,
+      "Alternative Folk": 2,
+      "Jazz": 2,
+      "Music": 2,
+      "Dubstep": 1,
+      "Hip Hop/Rap": 1
    },
    "Los Angeles": {
-      "No genre": 3,
+      "No genre": 7,
       "Alternative": 2,
-      "Pop": 1
+      "Pop": 2,
+      "Classical": 1,
+      "Heavy Metal": 1,
+      "Vocal Jazz": 1,
+      "Country": 2,
+      "Dance": 1,
+      "Rock": 1
    },
    "Seattle": {
-      "Alternative": 2,
+      "Alternative": 5,
       "Heavy Metal": 1,
-      "Rock": 3,
-      "No genre": 5,
+      "Rock": 4,
+      "No genre": 8,
       "New Age": 1,
-      "Electronic": 1
+      "Electronic": 3,
+      "Pop": 2,
+      "Singer/Songwriter": 2
    },
    "Boston / Cambridge": {
       "Pop": 2,
-      "Rock": 2,
-      "Alternative": 2,
-      "No genre": 3,
-      "Singer/Songwriter": 1
+      "Rock": 3,
+      "Alternative": 3,
+      "No genre": 8,
+      "Singer/Songwriter": 2,
+      "Hip Hop/Rap": 1,
+      "Punk": 2,
+      "House": 1
    },
    "Cincinnati": {
-      "No genre": 3,
-      "Rock": 2,
-      "Christian & Gospel": 1,
-      "Alternative": 1
+      "No genre": 6,
+      "Rock": 3,
+      "Christian & Gospel": 2,
+      "Alternative": 2
    },
    "SF Bay Area": {
-      "No genre": 5,
+      "No genre": 9,
       "Christian & Gospel": 1,
-      "Pop": 1,
+      "Pop": 3,
       "Jazz": 1,
       "Alternative": 1,
       "Folk": 1,
       "Music": 1,
-      "Punk": 1
+      "Punk": 1,
+      "Rock": 2,
+      "Dance": 1
    }
 }
