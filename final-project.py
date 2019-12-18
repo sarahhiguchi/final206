@@ -41,7 +41,7 @@ def musixmatch_artist_search(artist):
         api_key = "ca6e551b9b248119f6d8bd4c56d39613"
         url = "https://api.musixmatch.com/ws/1.1/artist.search?q_artist=" + artist + "&page_size=1&apikey=" + api_key
         artist_search = requests.get(url)
-        # print(artist_search.text)
+        print(artist_search.text + "END OF ARTIST SEARCH")
         artist_info = json.loads(artist_search.text)
         if len(artist_info["message"]["body"]["artist_list"]) == 0:
             pass
@@ -59,6 +59,7 @@ def album_get(artist_id):
         api_key = "ca6e551b9b248119f6d8bd4c56d39613"
         url = "https://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id +"&g_album_name=1&page=1&page_size=1&apikey=" + api_key
         album_search = requests.get(url)
+        print(album_search.text)
         album_info = json.loads(album_search.text)
         if len(album_info["message"]["body"]["album_list"][0]["album"]["primary_genres"]["music_genre_list"]) == 0:
             return album_info, "No genre"
@@ -253,18 +254,41 @@ def bar_chart(final_dict):
 
     plt.show()
 
+# def get_percentages_genres(final_dict):
+#     all_genres_count = {}
+#     perc_lis = []
+#     for city in final_dict:
+#         for genre in final_dict[city]:
+#                 all_genres_count[genre] = all_genres_count.get(genre, 0) + 1
+#     total = sum(all_genres_count.values())
+#     for genre in all_genres_count:
+#         perc_lis.append(all_genres_count[genre]/total)
+    
+#     return perc_lis
 
+# def make_pie(percentages):
+#     # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+#     labels = 'New York', 'Detroit', 'Seattle', 'Boston/Cambridge', 'Cincinatti', 'San Francisco'
+#     sizes = percentages
+#     explode = (0, 0, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
 
+#     fig1, ax1 = plt.subplots()
+#     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+#             shadow=True, startangle=90)
+#     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+#     plt.show()
 
 
 
 
 def main():
-    locations = ["New York", "Detroit", "Chicago", "Los Angeles", "Seattle"]
+    locations = ["New York", "Detroit", "Los Angeles", "Seattle", "Boston", "Cincinatti", "San Francisco"]
     for location in locations:
         locID = get_locid_songkick(location)
         setUpSKlcdTable(locID[0])
         info = get_data_songkick(locID[1])
+        # print(info)
         setUpSKlcdDATA(info[0])
         for artist in info[1]:
             artist_info = musixmatch_artist_search(artist)
@@ -276,7 +300,9 @@ def main():
             setupMMsearchTable(artist_info[0])
             setupGenreTable(artist_genre)
     fin_dict = get_category_dict('finalapi.sqlite')
-    write_to_file(fin_dict)
-    bar_chart(fin_dict)
-
+    # print(fin_dict)
+    # write_to_file(fin_dict)
+    # bar_chart(fin_dict)
+    # percent_list = get_percentages_genres(fin_dict)
+    # print(percent_list)
 main()
