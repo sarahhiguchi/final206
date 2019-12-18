@@ -272,9 +272,8 @@ def make_pie(percentages):
     # Pie chart, where the slices will be ordered and plotted counter-clockwise:
     labels = list(percentages.keys())
     sizes = list(percentages.values())
-    explode = a = tuple((0,) for i in range(len(sizes))   # only "explode" the 2nd slice (i.e. 'Hogs')
-    fig1, ax1 = plt.subplot()
-    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+    fig1, ax1 = plt.subplots()
+    ax1.pie(sizes, labels=labels, autopct='%1.1f%%',
             shadow=True, startangle=90)
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
@@ -300,12 +299,11 @@ def main():
     #             continue
     #         setupMMsearchTable(artist_info[0])
     #         setupGenreTable(artist_genre)
+
     fin_dict = get_category_dict('finalapi.sqlite')
-    # print(fin_dict)
     # write_to_file(fin_dict)
     bar_chart(fin_dict)
     percent_list = get_percentages_genres(fin_dict)
-    print(percent_list)
     make_pie(percent_list)
 
 main()
